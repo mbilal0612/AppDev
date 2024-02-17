@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:testproject/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,91 +17,73 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyanAccent),
         useMaterial3: false,
       ),
-      home: const MyHomePage(title: 'Login'),
+      darkTheme: ThemeData.dark(),
+      home: const Login(title: 'Login'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class Login extends StatefulWidget {
+  const Login({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Login> createState() => _LoginState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  bool _show = true;
+class _LoginState extends State<Login> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-          child: Center(
-              child: Padding(
-        padding: const EdgeInsets.only(top: 0.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-                height: 200,
-                width: 150,
-                child: Image.asset("assets/flutter.png")),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 12.0, left: 10.0, right: 10.0),
-              child: TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                  )),
-            ),
-            Padding(
-                padding: EdgeInsets.only(bottom: 90.0, left: 10.0, right: 10.0),
-                child: TextField(
-                    obscureText: _show,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.lock),
-                          onPressed: () {
-                            _show = !_show;
-                          },
-                        )))),
-            const Text("New user? Create Account"),
+        body: SafeArea(
+            child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                children: <Widget>[
+          const SizedBox(height: 80),
+          Column(
+            children: [
+              Image.asset('assets/diamond.png'),
+              const SizedBox(height: 16.0),
+              const Text('SHRINE')
+            ],
+          ),
+          const SizedBox(height: 120.0),
+          TextField(
+            controller: _usernameController,
+            decoration:
+                const InputDecoration(filled: true, labelText: 'Username'),
+          ),
+          const SizedBox(
+            height: 12.0,
+          ),
+          TextField(
+            controller: _passwordController,
+            decoration:
+                const InputDecoration(filled: true, labelText: 'Password'),
+            obscureText: true,
+          ),
+          OverflowBar(alignment: MainAxisAlignment.end, children: <Widget>[
             TextButton(
-              style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 14),
-              ),
-              onPressed: () {},
-              child: const Text('Forgot Password?'),
-            )
-          ],
-        ),
-      ))),
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {}, label: const Text("Login")),
-    );
+                onPressed: () {
+                  _usernameController.text;
+                  _usernameController.clear();
+                  _passwordController.clear();
+                },
+                child: const Text('CANCEL')),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Homepage()));
+                },
+                child: const Text('NEXT')),
+          ])
+        ])));
   }
 }
