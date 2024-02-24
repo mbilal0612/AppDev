@@ -93,7 +93,20 @@ class UserScreenState extends State<Login> {
                       ),
                       title: Text(user.title),
                       subtitle: Text(index.toString()),
-                      trailing: const Icon(Icons.visibility),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.visibility),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Text(user.title),
+                                );
+                              });
+                        },
+                      ),
                     ),
                   );
                 });
