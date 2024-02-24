@@ -69,41 +69,43 @@ class Homepage extends StatelessWidget {
         ),
         body: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: 8.0 / 9.0),
+                crossAxisCount: 2),
             padding: const EdgeInsets.all(16.0),
             itemCount: mockProducts.length,
             itemBuilder: (context, index) {
-              return Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        AspectRatio(
-                          aspectRatio: 18.0 / 11.0,
-                          child: Image.asset(
-                            mockProducts[index].imageUrl,
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        Expanded(
-                            child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  mockProducts[index].name,
-                                  // style: theme.textTheme.titleLarge
-                                ),
-                                const SizedBox(height: 8.0),
-                                Text(
-                                  mockProducts[index].price,
-                                  // style: theme.textTheme.titleSmall,
-                                ),
-                              ]),
-                        ))
-                      ]));
+              return AspectRatio(
+                  aspectRatio: index % 2 == 0 ? 19.0 / 12.0 : 8.0 / 9.0,
+                  child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            AspectRatio(
+                              aspectRatio: 18.0 / 11.0,
+                              child: Image.asset(
+                                mockProducts[index].imageUrl,
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                            Expanded(
+                                child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  16.0, 12.0, 16.0, 8.0),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      mockProducts[index].name,
+                                      // style: theme.textTheme.titleLarge
+                                    ),
+                                    const SizedBox(height: 8.0),
+                                    Text(
+                                      mockProducts[index].price,
+                                      // style: theme.textTheme.titleSmall,
+                                    ),
+                                  ]),
+                            ))
+                          ])));
             })
         // GridView.count(
         //     crossAxisCount: 2,

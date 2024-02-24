@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:testproject/home.dart';
+import 'package:testproject/model/album_model.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -29,61 +33,77 @@ class Login extends StatefulWidget {
   final String title;
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Login> createState() => UserScreenState();
 }
 
-class _LoginState extends State<Login> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+//list view builder only renders those that are being displayed on screen
+// thats why its preferred to normals rows and columns
+
+class UserScreenState extends State<Login> {
+  //late will throw error when used before assigning
+  late Future<List<Albums>> futureAlbumsList;
+
+  Future<List<Albums>> fetchAlbums() async {
+    Uri uriObject = Uri.parse('https://jsonplaceholder.typicode.com/albums');
+    final response = await http.get(uriObject);
+
+    if (response.statusCode == 200) {
+      List<dynamic> parseListJson = jsonDecode(response.body);
+
+      //cant access by iterable through index
+      List<Albums> items = List<Albums>.from(
+        //map returns and interable
+        parseListJson.map<Albums>((dynamic user) => Albums.fromJson(user)),
+      );
+
+      //.from is more optimized than .tolist()
+
+      return items;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  //load the widget before do this stuff
+  @override
+  void initState() {
+    super.initState();
+
+    futureAlbumsList = fetchAlbums();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                children: <Widget>[
-          const SizedBox(height: 80),
-          Column(
-            children: [
-              Image.asset('assets/diamond.png'),
-              const SizedBox(height: 16.0),
-              const Text('SHRINE')
-            ],
-          ),
-          const SizedBox(height: 120.0),
-          TextField(
-            controller: _usernameController,
-            decoration:
-                const InputDecoration(filled: true, labelText: 'Username'),
-          ),
-          const SizedBox(
-            height: 12.0,
-          ),
-          TextField(
-            controller: _passwordController,
-            decoration:
-                const InputDecoration(filled: true, labelText: 'Password'),
-            obscureText: true,
-          ),
-          OverflowBar(alignment: MainAxisAlignment.end, children: <Widget>[
-            TextButton(
-                onPressed: () {
-                  _usernameController.text;
-                  _usernameController.clear();
-                  _passwordController.clear();
-                },
-                child: const Text('CANCEL')),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Homepage()));
-                },
-                child: const Text('NEXT')),
-          ])
-        ])));
+      body: SafeArea(
+          child: FutureBuilder(
+        future: futureAlbumsList,
+        //snapshot is the curret state of the data
+
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+                itemCount: snapshot.data?.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage("assets/catpic.jpeg"),
+                      ),
+                      title: Text(index.toString()),
+                      subtitle: const Text("hello"),
+                      trailing: const Icon(Icons.visibility),
+                    ),
+                  );
+                });
+          }
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+
+          return const CircularProgressIndicator();
+        },
+      )),
+    );
   }
 }
