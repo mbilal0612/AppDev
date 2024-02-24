@@ -85,13 +85,14 @@ class UserScreenState extends State<Login> {
             return ListView.builder(
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
+                  var user = snapshot.data![index];
                   return Card(
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundImage: AssetImage("assets/catpic.jpeg"),
                       ),
-                      title: Text(index.toString()),
-                      subtitle: const Text("hello"),
+                      title: Text(user.title),
+                      subtitle: Text(index.toString()),
                       trailing: const Icon(Icons.visibility),
                     ),
                   );
