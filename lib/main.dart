@@ -71,39 +71,35 @@ class _MyHomePageState extends State<MyHomePage> {
             return Text('Error: ${snapshot.error}');
           } else {
             // When the task is done, show the fetched data
-            return ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  Products product = snapshot.data![index];
-                  return Card(
-                    color: Colors.greenAccent,
-                    child: Column(children: [
-                      Image.network(product.thumbnail.toString()),
-                      Row(
-                        children: [
-                          Text(product.title.toString()),
-                          Text(product.price.toString()),
-                          IconButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Card(
-                                        child: Row(children: [
-                                          for (var item in product.images)
-                                            Image.network(item.toString()),
-                                          Text(product.title.toString()),
-                                          Text(product.description.toString()),
-                                        ]),
-                                      );
-                                    });
-                              },
-                              icon: const Icon(Icons.remove_red_eye_sharp)),
-                        ],
-                      )
-                    ]),
-                  );
-                });
+            return ListView.builder(itemBuilder: (context, index) {
+              Products product = snapshot.data![index];
+              return Card(
+                color: Colors.greenAccent,
+                child: Column(children: [
+                  Image.network(product.thumbnail.toString()),
+                  Row(
+                    children: [
+                      Text(product.title.toString()),
+                      Text(product.price.toString()),
+                      IconButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Card(
+                                    child: Row(children: [
+                                      Text(product.title.toString()),
+                                      Text(product.description.toString()),
+                                    ]),
+                                  );
+                                });
+                          },
+                          icon: const Icon(Icons.remove_red_eye_sharp)),
+                    ],
+                  )
+                ]),
+              );
+            });
           }
         },
       ),

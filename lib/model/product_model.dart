@@ -9,7 +9,7 @@ class Products {
   String? brand;
   String? category;
   String? thumbnail;
-  List<String> images;
+  List<dynamic> images;
 
   Products({
     required this.id,
