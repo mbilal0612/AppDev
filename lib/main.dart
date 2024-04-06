@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
               itemBuilder: (context, index) {
                 return ListTile(
                   leading: CircleAvatar(
-                    child: Text(index.toString()),
+                    child: Text((index + 1).toString()),
                   ),
                   title: Text(todos[index].title),
                   trailing:
