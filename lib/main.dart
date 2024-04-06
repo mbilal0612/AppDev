@@ -64,9 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   leading: CircleAvatar(
                     child: Text((index + 1).toString()),
                   ),
-                  title: Text(todos[index].title),
-                  trailing:
-                      todos[index].completed ? const Icon(Icons.done) : null,
+                  title: Text(todos[index].name),
                 );
               });
         }));

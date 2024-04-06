@@ -1,24 +1,25 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:testproject/model/todo.dart';
 
 class TodoService {
+  final dio = Dio();
+
   Future<List<Todo>> getAllTodos() async {
-    String url = "https://jsonplaceholder.typicode.com/todos";
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    Response response =
+        await dio.get('https://jsonplaceholder.typicode.com/users');
 
     if (response.statusCode == 200) {
-      final json = jsonDecode(response.body) as List;
+      final json = response.data as List;
 
       //map returns an item on each iteration
       final todos = json.map((e) {
         return Todo(
             id: e['id'],
-            title: e['title'],
-            userId: e['userId'],
-            completed: e['completed']);
+            name: e['name'],
+            username: e['username'],
+            email: e['email']);
       }).toList();
 
       return todos;
