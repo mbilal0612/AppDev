@@ -8,8 +8,7 @@ class ApiClient {
   ApiClient();
 
   Future<List<User>> getUser() async {
-    var _uri = Uri.https('https://jsonplaceholder.typicode.com/users');
-    final response = await https.get(_uri);
+    final response = await https.get(Uri.parse('https://jsonplaceholder.typicode.com/users'));
     List<dynamic> jsonList = jsonDecode(response.body);
     List<User> userList = jsonList.map<User>((userjson) => User.fromJson(userjson)).toList();
     return userList;
