@@ -1,11 +1,8 @@
-# Firebase
+# Riverpod
 
-NoSQL database. It has authentication,databse & Analytics dashboard.
-Analytics & Crash Analytics.
+A new Flutter project.
 
-Two ways to integrate. 
-1. manual
-2. firebase cli (easy)
+## Getting Started
 
-
-
+If it is a large scale project -> block
+If it is a medium scale project -> riverpod
