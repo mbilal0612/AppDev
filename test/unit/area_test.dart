@@ -1,4 +1,5 @@
 import "package:testproject/main.dart";
+import "package:flutter_test/flutter_test.dart";
 
 void main() {
   test("Area of circle with radius 1 should be 3.141592", () { 
@@ -16,7 +17,7 @@ void main() {
     //Arrange 
     Area area = Area();
     //Act
-    double result = area.rectanlge(2,1);
+    double result = area.rectangle(2,1);
     //Assert
     expect(result,2);
   });
