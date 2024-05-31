@@ -1,6 +1,6 @@
 # testproject
 
-A new Flutter project.
+App Dev course
 
 ## Getting Started
 
